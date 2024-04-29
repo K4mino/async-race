@@ -1,0 +1,14 @@
+.carContainer{
+    display: flex;
+    gap: 10px;
+}
+
+.carControls {
+    display: flex;
+    flex-direction: column;
+}
+
+.car{
+    height: 100px;
+    width: 100px;
+}

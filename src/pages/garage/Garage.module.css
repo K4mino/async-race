@@ -1,0 +1,4 @@
+.garage{
+    display: flex;
+    flex-direction: column;
+}
