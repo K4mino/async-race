@@ -1,9 +1,13 @@
+import { Dispatch, SetStateAction } from "react";
 import { BASE_URL } from "../constants"
+import { Car } from "@/entities/Car/types";
+import { getCar } from "../api/garageApi";
 
 type AnimationsType ={
     [key: number]: number
 }
 
+const results:number[] = []
 const animations:AnimationsType = {}
 
 export const startCar = async (id: number) => {
@@ -25,7 +29,6 @@ export const startCar = async (id: number) => {
   };
   
   
-  
   export const startDrive = async (id: number) => {
     const res = await fetch(
       `${BASE_URL}/engine?id=${id}&status=drive`,
@@ -38,13 +41,11 @@ export const startCar = async (id: number) => {
     return data;
   };
   
-  export const startCarAndDrive = (id: number) => {
+  export const startCarAndDrive = (id: number,setWinner: Dispatch<SetStateAction<Car | null>>,) => {
     startCar(id).then((res) => {
       const { velocity, distance } = res;
       const car = <HTMLDivElement>document.getElementById(`car-${id}`);
-      const animationId = startAnimation(id, velocity, distance, car);
-      animations[id] = animationId;
-      console.log("Animation started for car:", id, "Animation ID:", animationId);
+      const animationId = startAnimation(id, velocity, distance, car, setWinner);
       startDrive(id).then((res) => {
         if (!res.success) {
           window.cancelAnimationFrame(animationId);
@@ -58,6 +59,7 @@ export const startCar = async (id: number) => {
     velocity: number,
     distance: number,
     car: HTMLDivElement,
+    setWinner: Dispatch<SetStateAction<Car | null>>,
   ) {
     let start: number | null = null;
     const time = distance / velocity;
@@ -76,13 +78,14 @@ export const startCar = async (id: number) => {
   
       car.style.transform = `translateX(${progress * distanceAnimation}px)`;
   
-      if (progress < 1) {
+      if (progress < 1 ) {
         animationId = window.requestAnimationFrame(animate);
         animations[id] = animationId
       }
   
       if (progress >= 1) {
-        addWinner(id, time);
+        if (results.length === 0) addWinner(id, time, setWinner);
+        results.push(id)
       }
     }
     animationId = window.requestAnimationFrame(animate);
@@ -90,8 +93,11 @@ export const startCar = async (id: number) => {
     return animationId
   }
   
-  async function addWinner(id: number, time: number) {
+  async function addWinner(id: number, time: number,setWinner: Dispatch<SetStateAction<Car | null>>,) {
     try {
+      const winnerCar = await getCar(id);
+      setWinner(winnerCar)
+
       const { wins } = await fetch(`${BASE_URL}/winner/${id}`);
   
       if (!wins) {
@@ -119,20 +125,3 @@ export const startCar = async (id: number) => {
   }
 
 
-export const editCar = async (id: number, name: string, color: string) => {
-    const res = await fetch(`${BASE_URL}/garage/${id}`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({name, color})
-    })
-    return await res.json()
-}
-
-export const deleteCar = async (id: number) => {
-    const res = await fetch(`http://127.0.0.1:3000/garage/${id}`, {
-        method: 'DELETE'
-    })
-    return await res.json()
-}

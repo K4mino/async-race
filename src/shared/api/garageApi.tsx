@@ -4,6 +4,13 @@ export const getAllCars = async () => {
     const res = await fetch(`${BASE_URL}/garage`)
     return await res.json()
 }
+
+export async function getCar(id: number) {
+    const res = await fetch(`${BASE_URL}/garage/${id}`);
+    const car = await res.json();
+    return car;
+  }
+
 export const createCar = async (name: string,color: string) => {
     const res =  await fetch(`${BASE_URL}/garage`, {
         method: 'POST',
@@ -32,3 +39,6 @@ export const updateCar = async (id: number, name: string, color: string) => {
     })
     return await res.json()
 }
+
+
+
