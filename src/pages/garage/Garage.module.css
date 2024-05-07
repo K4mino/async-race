@@ -1,4 +1,12 @@
 .garage{
+    position: relative;
     display: flex;
     flex-direction: column;
+    padding-left: 10px;
+}
+
+
+.garageControls{
+    display: flex;
+    gap: 20px;
 }

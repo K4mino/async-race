@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
-import { BASE_URL } from "../constants"
-import { Car } from "@/entities/Car/types";
-import { getCar } from "../api/garageApi";
+import { BASE_URL, carNames } from "../constants"
+import { Car as CarType } from "@/entities/ as CarType/types";
+import { createCar, getCar } from "../api/garageApi";
 
 type AnimationsType ={
     [key: number]: number
@@ -41,7 +41,7 @@ export const startCar = async (id: number) => {
     return data;
   };
   
-  export const startCarAndDrive = (id: number,setWinner: Dispatch<SetStateAction<Car | null>>,) => {
+  export const startCarAndDrive = (id: number,setWinner: Dispatch<SetStateAction<CarType | null>>,) => {
     startCar(id).then((res) => {
       const { velocity, distance } = res;
       const car = <HTMLDivElement>document.getElementById(`car-${id}`);
@@ -59,7 +59,7 @@ export const startCar = async (id: number) => {
     velocity: number,
     distance: number,
     car: HTMLDivElement,
-    setWinner: Dispatch<SetStateAction<Car | null>>,
+    setWinner: Dispatch<SetStateAction<CarType | null>>,
   ) {
     let start: number | null = null;
     const time = distance / velocity;
@@ -93,7 +93,7 @@ export const startCar = async (id: number) => {
     return animationId
   }
   
-  async function addWinner(id: number, time: number,setWinner: Dispatch<SetStateAction<Car | null>>,) {
+  async function addWinner(id: number, time: number,setWinner: Dispatch<SetStateAction<CarType | null>>,) {
     try {
       const winnerCar = await getCar(id);
       setWinner(winnerCar)
@@ -123,5 +123,31 @@ export const startCar = async (id: number) => {
       console.log(error);
     }
   }
+
+
+export const race = (cars: CarType[],setWinner: Dispatch<SetStateAction<CarType | null>>) => {
+    cars.forEach((car) => {
+        startCarAndDrive(car.id,setWinner)
+    })
+}
+
+export const generateCars = async(): Promise<CarType[] | undefined> => {
+    const cars: CarType[] = [];
+
+    try {
+      for (let i = 0; i < 100; i++) {
+        const car = {
+          name: carNames[Math.floor(Math.random() * carNames.length)],
+          color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
+        }
+        const carWithId = await createCar(car.name,car.color)
+  
+        cars.push(carWithId)
+      }
+      return cars;
+    } catch (error) {
+      console.log(error)
+    }
+}
 
 
