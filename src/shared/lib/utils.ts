@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { BASE_URL, carNames } from "../constants"
-import { Car as CarType } from "@/entities/ as CarType/types";
+import { Car as CarType } from "@/entities/Car/types";
 import { createCar, getCar } from "../api/garageApi";
 
 type AnimationsType ={
@@ -140,7 +140,7 @@ export const generateCars = async(): Promise<CarType[] | undefined> => {
           name: carNames[Math.floor(Math.random() * carNames.length)],
           color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
         }
-        const carWithId = await createCar(car.name,car.color)
+        const carWithId = await createCar(car)
   
         cars.push(carWithId)
       }
@@ -149,5 +149,7 @@ export const generateCars = async(): Promise<CarType[] | undefined> => {
       console.log(error)
     }
 }
+
+
 
 

@@ -1,3 +1,4 @@
+import { Car } from "@/entities/Car/types";
 import { BASE_URL } from "../constants"
 
 export const getAllCars = async () => {
@@ -11,7 +12,8 @@ export async function getCar(id: number) {
     return car;
   }
 
-export const createCar = async (name: string,color: string) => {
+export const createCar = async (newCar:{name: string, color: string}) => {
+    const {name, color} = newCar
     const res =  await fetch(`${BASE_URL}/garage`, {
         method: 'POST',
         headers: {
