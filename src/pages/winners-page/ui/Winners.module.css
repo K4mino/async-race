@@ -1,0 +1,21 @@
+.table{
+  color: #000;
+  background: white;
+  border: 1px solid grey;
+  font-size: 12pt;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 5px 10px;
+  border: 1px solid grey;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.thead{
+    color: #000;
+  background: rgba(0,0,0,.1);
+}

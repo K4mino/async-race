@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import { BASE_URL, carNames } from "../constants"
 import { Car as CarType } from "@/entities/Car/types";
 import { createCar, getCar } from "../api/garageApi";
+import { addWinner } from "../api/winnersApi";
 
 type AnimationsType ={
     [key: number]: number
@@ -84,7 +85,9 @@ export const startCar = async (id: number) => {
       }
   
       if (progress >= 1) {
-        if (results.length === 0) addWinner(id, time, setWinner);
+        if (results.length === 0){
+          addWinner(id, time, setWinner);
+        }
         results.push(id)
       }
     }
@@ -93,36 +96,7 @@ export const startCar = async (id: number) => {
     return animationId
   }
   
-  async function addWinner(id: number, time: number,setWinner: Dispatch<SetStateAction<CarType | null>>,) {
-    try {
-      const winnerCar = await getCar(id);
-      setWinner(winnerCar)
-
-      const { wins } = await fetch(`${BASE_URL}/winner/${id}`);
-  
-      if (!wins) {
-        await fetch(`${BASE_URL}/winners`, {
-          method: "POST",
-          body: JSON.stringify({
-            id,
-            wins: 1,
-            time,
-          }),
-        });
-      } else {
-        await fetch(`${BASE_URL}/winners`, {
-          method: "POST",
-          body: JSON.stringify({
-            id,
-            wins: wins + 1,
-            time,
-          }),
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+ 
 
 
 export const race = (cars: CarType[],setWinner: Dispatch<SetStateAction<CarType | null>>) => {

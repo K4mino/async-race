@@ -7,10 +7,10 @@ export const Nav:React.FC = () => {
   return (
     <div className={styles.nav}>
       <Link href={'/'}>
-        <Button>Garage</Button>
+        <Button type='text'>Garage</Button>
       </Link>
       <Link href={'/winners'}>
-        <Button>Winners</Button>
+        <Button type='text'>Winners</Button>
       </Link>
     </div>
   )

@@ -3,11 +3,12 @@ import styles from './Button.module.css'
 
 interface ButtonProps {
     children: React.ReactNode;
-    onClick?: () => void
+    onClick?: () => void;
+    type: "filled" | "text" | "outlined";
   }
-const Button: React.FC<ButtonProps> = ({children,...props}) => {
+const Button: React.FC<ButtonProps> = ({children,type,...props}) => {
   return (
-    <button className={styles.button} {...props}>
+    <button className={styles.button + " " + styles[type]} {...props}>
         {children}
     </button>
   )

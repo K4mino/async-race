@@ -10,14 +10,18 @@ interface CarProps {
   name: string;
   color: string;
   setWinner: Dispatch<SetStateAction<CarType | null>>;
+  handleDeleteCar: (id: number) => void;
+  selectCar:Dispatch<SetStateAction<CarType | null>>;
 }
 
-const Car: React.FC<CarProps> = ({ name, color, id, setWinner }) => {
+const Car: React.FC<CarProps> = ({ name, color, id, setWinner, handleDeleteCar, selectCar }) => {
   return (
     <div className={styles.carContainer}>
       <div className={styles.carControls}>
-        <Button onClick={() => startCarAndDrive(id, setWinner)}>Go</Button>
-        <Button onClick={() => stopCar(id)}>Stop</Button>
+        <Button type="filled" onClick={() => startCarAndDrive(id, setWinner)}>Go</Button>
+        <Button type="filled" onClick={() => stopCar(id)}>Stop</Button>
+        <Button type="filled" onClick={() => selectCar({name, color, id})}>Select</Button>
+        <Button type="filled" onClick={() => handleDeleteCar(id)}>Delete</Button>
       </div>
       <div
         id={`car-${id}`}

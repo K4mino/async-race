@@ -4,4 +4,6 @@ export interface Car {
     color:string;
     velocity?:number;
     distance?:number;
+    wins?:number;
+    time?:number
 }
