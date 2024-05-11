@@ -8,7 +8,7 @@ import {
   updateCar,
 } from "@/shared/api/garageApi";
 import Car from "@/entities/Car/ui/Car";
-import styles from "./Garage.module.css";
+import styles from "./GaragePage.module.css";
 import { Car as CarType } from "@/entities/Car/types";
 import Modal from "@/shared/ui/Modal/Modal";
 import Pagination from "@/shared/ui/Pagination/Pagination";
@@ -17,7 +17,7 @@ import Input from "@/shared/ui/Input/Input";
 import { generateCars, race, stopCar } from "@/shared/lib/utils";
 import Loader from "@/shared/ui/Loader/Loader";
 
-export const Garage = () => {
+const GaragePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [cars, setCars] = useState<CarType[]>([]);
   const [winner, setWinner] = useState<CarType | null>(null);
@@ -51,7 +51,7 @@ export const Garage = () => {
     }
     setWinner(null);
   };
-  console.log(winner)
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -197,3 +197,5 @@ export const Garage = () => {
     </div>
   );
 };
+
+export default GaragePage;

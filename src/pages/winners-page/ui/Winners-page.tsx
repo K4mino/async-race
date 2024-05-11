@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react";
 import { getWinners } from "@/shared/api/winnersApi";
 import { Car as CarType } from "@/entities/Car/types";
-import styles from "./Winners.module.css";
+import styles from "./WinnersPage.module.css";
 
-export const Winners = () => {
+const WinnersPage = () => {
   const [winners, setWinners] = useState<CarType[]>([]);
 
   useEffect(() => {
@@ -16,7 +16,6 @@ export const Winners = () => {
     fetchData();
   }, []);
   
-  console.log(winners);
   return (
     <table className={styles.table}>
       <thead className={styles.thead}>
@@ -65,3 +64,5 @@ export const Winners = () => {
     </table>
   );
 };
+
+export default WinnersPage;

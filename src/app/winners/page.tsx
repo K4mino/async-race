@@ -1,10 +1,10 @@
-import { Winners } from '@/pages/winners-page'
+import  WinnersPage from '@/pages/winners-page/ui/Winners-page'
 import React from 'react'
 
-const page = () => {
+const Winners = () => {
   return (
-    <Winners/>
+    <WinnersPage/>
   )
 }
 
-export default page
+export default Winners
