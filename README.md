@@ -24,7 +24,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 #Evaluation
 
-Score: 305
+#Score: 305
 
 ## 🚀 UI Deployment
 
