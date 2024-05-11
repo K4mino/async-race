@@ -174,6 +174,7 @@ const GaragePage = () => {
           />
           <Button type="filled" onClick={handleUpdateCar}>Update</Button>
         </div>
+        <h3>Cars in garage: {cars.length}</h3>
       </div>
       {activePageData.map(
         (car: { id: number; name: string; color: string }) => (
