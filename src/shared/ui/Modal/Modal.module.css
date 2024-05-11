@@ -15,8 +15,10 @@
 .modal{
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    width: 450px;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    width: 350px;
     height: 200px;
     background-color: white;
     border-radius: 8px;
@@ -24,4 +26,8 @@
     -moz-border-radius: 8px;
     -ms-border-radius: 8px;
     -o-border-radius: 8px;
+}
+
+.modalText{
+    text-align: center;
 }

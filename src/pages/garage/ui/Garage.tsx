@@ -45,13 +45,13 @@ export const Garage = () => {
     }
   };
 
-  const handleReset = () => {
-    activePageData.forEach((car) => {
-      stopCar(car.id);
-    });
+  const handleReset = async() => {
+    for(const car of activePageData){
+      await stopCar(car.id);
+    }
     setWinner(null);
   };
-
+  console.log(winner)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -113,7 +113,7 @@ export const Garage = () => {
   return (
     <div className={styles.garage}>
       {isLoading && <Loader/>}
-      {winner && <Modal winner={winner.name} resetRace={handleReset} />}
+      {winner && <Modal winner={winner.name} time={winner.time} resetRace={()=>setWinner(null)} />}
       <div className={styles.garageControls}>
         <div>
           <Button type="filled" onClick={() => race(activePageData, setWinner)}>Race</Button>

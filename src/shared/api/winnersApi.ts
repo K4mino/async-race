@@ -26,8 +26,7 @@ export const getWinners = async () => {
 
 const getWinner = async (id: number) => {
     const res = await fetch(`${BASE_URL}/winners/${id}`);
-    const winner = await res.json();
-    return winner;
+    return res;
 }
 
 const updateWinner = async (id: number, wins: number, time: number) => {
@@ -44,18 +43,19 @@ const updateWinner = async (id: number, wins: number, time: number) => {
 export async function addWinner(id: number, newTime: number,setWinner: Dispatch<SetStateAction<CarType | null>>,) {
     try {
       const newWinner = await getCar(id);
+      const fixedTime = (newTime/1000).toFixed(2)
       const { name, color } = newWinner;
-      setWinner(newWinner)
+      setWinner({
+        ...newWinner,
+        time:fixedTime
+      })
 
       const winner = await getWinner(id);
-
-      const { wins, time } = await winner;
-      const winsCount = wins ? wins + 1 : 1;
-      const bestTime = time ? Math.min(time, newTime) : newTime;
-
-      console.log('winsCount', winsCount,time)
-      
-      if(winsCount > 1){
+      console.log(winner)
+      if(winner.ok){
+        const { wins, time } = await winner.json();
+        const winsCount = wins ? wins + 1 : 1;
+        const bestTime = time ? Math.min(time, newTime) : newTime;
         await updateWinner(id, winsCount, bestTime)
       }else {
         await fetch(`${BASE_URL}/winners`, {
@@ -67,8 +67,8 @@ export async function addWinner(id: number, newTime: number,setWinner: Dispatch<
               id,
               name,
               color,
-              wins: winsCount,
-              time:(newTime/1000).toFixed(2),
+              wins: 1,
+              time:fixedTime,
             }),
           });
       }

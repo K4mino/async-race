@@ -8,7 +8,7 @@ type AnimationsType ={
     [key: number]: number
 }
 
-const results:number[] = []
+let results:number[] = []
 const animations:AnimationsType = {}
 
 export const startCar = async (id: number) => {
@@ -35,7 +35,6 @@ export const startCar = async (id: number) => {
       `${BASE_URL}/engine?id=${id}&status=drive`,
       {
         method: "PATCH",
-        
       },
     );
     const data = await res.json();
@@ -48,7 +47,7 @@ export const startCar = async (id: number) => {
       const car = <HTMLDivElement>document.getElementById(`car-${id}`);
       const animationId = startAnimation(id, velocity, distance, car, setWinner);
       startDrive(id).then((res) => {
-        if (!res.success) {
+        if (res.status == 500) {
           window.cancelAnimationFrame(animationId);
         }
       });
@@ -92,7 +91,7 @@ export const startCar = async (id: number) => {
       }
     }
     animationId = window.requestAnimationFrame(animate);
-
+    results = []
     return animationId
   }
   

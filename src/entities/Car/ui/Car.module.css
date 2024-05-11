@@ -1,6 +1,7 @@
 .carContainer{
     display: flex;
     gap: 10px;
+    border-bottom: 2px solid black;
 }
 
 .carControls {
