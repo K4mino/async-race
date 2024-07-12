@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://async-race-api-livid.vercel.app/';
+export const BASE_URL = 'https://async-race-api-livid.vercel.app';
 
 
 export const carNames = [
